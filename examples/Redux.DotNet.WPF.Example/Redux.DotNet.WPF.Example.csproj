@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Redux.DotNet.DevTools\Redux.DotNet.DevTools.csproj" />
     <ProjectReference Include="..\..\src\Redux.DotNet.WPF\ReduxSharp.WPF.csproj" />
     <ProjectReference Include="..\..\src\Redux.DotNet\ReduxSharp.csproj" />
   </ItemGroup>

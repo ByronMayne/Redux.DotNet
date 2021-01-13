@@ -5,6 +5,7 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>ReduxSharp.WPF</AssemblyName>
     <RootNamespace>ReduxSharp.WPF</RootNamespace>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

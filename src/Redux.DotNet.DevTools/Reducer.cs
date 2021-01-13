@@ -1,14 +1,13 @@
-﻿using ReduxSharp.Reducers;
-using ReduxSharp.Redux;
-using ReduxSharp.Redux.Actions;
+﻿using ReduxSharp;
+using ReduxSharp.Reducers;
 
-namespace ReduxSharp.Plugins.DevTools
+namespace Redux.DotNet.DevTools
 {
-    public class DevToolsReducer<TState> : IReducer<TState>
+    internal class Reducer<TState> : IReducer<TState>
     {
         private readonly ReduxConnection m_connection;
 
-        public DevToolsReducer(ReduxConnection connection)
+        public Reducer(ReduxConnection connection)
         {
             m_connection = connection;
         }

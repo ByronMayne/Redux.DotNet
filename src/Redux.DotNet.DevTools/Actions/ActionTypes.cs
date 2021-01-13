@@ -1,7 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.Runtime.Serialization;
 
-namespace ReduxSharp.Redux.Actions
+namespace Redux.DotNet.DevTools
+
 {
     public enum ActionTypes
     {

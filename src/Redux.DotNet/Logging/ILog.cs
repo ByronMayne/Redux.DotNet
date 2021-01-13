@@ -2,7 +2,7 @@
 
 namespace ReduxSharp.Logging
 {
-    public interface ILogger
+    public interface ILog
     {
         /// <summary>
         /// Writes an error to the logger 

@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace ReduxSharp.SocketCluster
+namespace Redux.DotNet.DevTools.SocketCluster
 {
     /// <summary>
     /// Wraps a message that was received by a socket 
     /// </summary>
-    internal struct SocketMessage
+    internal struct SocketResponse
     {
         /// <summary>
         /// Gets the message that was sent
@@ -30,7 +30,7 @@ namespace ReduxSharp.SocketCluster
         /// <summary>
         /// Creates a new instance of a socket message 
         /// </summary>
-        public SocketMessage(JToken content, Socket sender)
+        public SocketResponse(JToken content, Socket sender)
         {
             Content = content;
             Sender = sender;

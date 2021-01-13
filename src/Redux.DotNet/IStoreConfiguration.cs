@@ -19,7 +19,7 @@ namespace ReduxSharp
         /// </summary>
         /// <typeparam name="TLogType">The type of log to use</typeparam>
         IStoreConfiguration<T> UseLogger<TLogType>() 
-            where TLogType : ILogger;
+            where TLogType : ILog;
 
         /// <summary>
         /// Adds an instance that can be used to resolve constructors used for activation of any types
@@ -39,7 +39,7 @@ namespace ReduxSharp
         /// </summary>
         /// <typeparam name="TLogType">The type of log to use</typeparam>
         IStoreConfiguration<T> UseLogger<TLogType, TOptionsType>(ConfigurationDelegate<TOptionsType> options)
-            where TLogType : ILogger
+            where TLogType : ILog
             where TOptionsType : new();
 
         /// <summary>

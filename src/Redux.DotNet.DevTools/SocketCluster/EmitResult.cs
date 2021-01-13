@@ -1,6 +1,6 @@
-﻿namespace ReduxSharp.SocketCluster
+﻿namespace Redux.DotNet.DevTools.SocketCluster
 {
-    public record EmitResult(object error, object data)
+    internal record EmitResult(object error, object data)
     {
         /// <summary>
         /// Gets if there was an error that happened with this emit

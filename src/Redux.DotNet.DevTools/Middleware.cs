@@ -1,17 +1,17 @@
-﻿using ReduxSharp.Middleware;
-using ReduxSharp.Redux;
-using ReduxSharp.Redux.Actions;
+﻿using Redux.DotNet.Actions;
+using ReduxSharp;
+using ReduxSharp.Middleware;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ReduxSharp.Plugins.DevTools
+namespace Redux.DotNet.DevTools
 {
-    public class DevToolsMiddleware<T> : IMiddleware<T>
+    internal class Middleware<T> : IMiddleware<T>
     {
         private ActionDispatchDelegate m_next;
         private readonly ReduxConnection m_connection;
 
-        public DevToolsMiddleware(ReduxConnection connection, ActionDispatchDelegate next)
+        public Middleware(ReduxConnection connection, ActionDispatchDelegate next)
         {
             m_connection = connection;
             m_next = next;

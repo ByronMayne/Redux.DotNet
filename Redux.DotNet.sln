@@ -20,6 +20,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Json", "Json", "{7561CD79-D
 		documents\json\ReduxSubscribeError.json = documents\json\ReduxSubscribeError.json
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{C9447B2E-8201-48DF-93FA-BD503F711021}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Redux.DotNet.DevTools", "src\Redux.DotNet.DevTools\Redux.DotNet.DevTools.csproj", "{B72C46DF-A276-4DB7-A9BA-1E8275CB682D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +42,10 @@ Global
 		{56354BFE-E8ED-42D5-9319-5D83D82B5E27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56354BFE-E8ED-42D5-9319-5D83D82B5E27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56354BFE-E8ED-42D5-9319-5D83D82B5E27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B72C46DF-A276-4DB7-A9BA-1E8275CB682D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B72C46DF-A276-4DB7-A9BA-1E8275CB682D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B72C46DF-A276-4DB7-A9BA-1E8275CB682D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B72C46DF-A276-4DB7-A9BA-1E8275CB682D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,6 +55,8 @@ Global
 		{8AF342A0-1287-463F-A45B-A69877378FDE} = {5B1ECF31-1366-4035-8D2A-AE72B2B38E37}
 		{56354BFE-E8ED-42D5-9319-5D83D82B5E27} = {5B1ECF31-1366-4035-8D2A-AE72B2B38E37}
 		{7561CD79-DE02-4BB4-B407-CC8375C302E1} = {73290FBD-6853-4A61-A8DB-81DD31445BBA}
+		{C9447B2E-8201-48DF-93FA-BD503F711021} = {5B1ECF31-1366-4035-8D2A-AE72B2B38E37}
+		{B72C46DF-A276-4DB7-A9BA-1E8275CB682D} = {C9447B2E-8201-48DF-93FA-BD503F711021}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FCFE5942-013B-4229-8768-51BBEDA03E34}

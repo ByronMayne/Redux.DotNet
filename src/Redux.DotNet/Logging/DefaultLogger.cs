@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 namespace ReduxSharp.Logging
 {
 
-    internal class DefaultLogger : ILogger
+    internal class DefaultLogger : ILog
     {
         private readonly Regex m_matcher;
         private readonly LoggerOptions m_options;

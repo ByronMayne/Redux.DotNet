@@ -1,6 +1,6 @@
-﻿namespace ReduxSharp.SocketCluster
+﻿namespace Redux.DotNet.DevTools.SocketCluster
 {
-    public enum MessageType
+    internal enum MessageType
     {
         Authenticated,
         Publish,

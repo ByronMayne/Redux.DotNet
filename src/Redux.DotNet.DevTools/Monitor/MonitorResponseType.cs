@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace ReduxSharp.Redux
+namespace Redux.DotNet.DevTools.Monitor
 {
-    public enum EventType
+    internal enum MonitorResponseType
     {
         /// <summary>
         /// A monitor action dispatched on Redux DevTools monitor

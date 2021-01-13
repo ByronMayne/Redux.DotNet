@@ -2,9 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ReduxSharp.SocketCluster
+namespace Redux.DotNet.DevTools.SocketCluster
 {
-    class Channel
+    internal class Channel
     {
         private readonly WeakReference<Socket> m_owner;
         private readonly string m_name;
@@ -25,7 +25,6 @@ namespace ReduxSharp.SocketCluster
                 await owner.SubscribeChannelAsync(m_name, cancellationToken);
             }
         }
-
 
         /// <summary>
         /// Unsubscribes to this channels events

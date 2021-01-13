@@ -111,19 +111,19 @@ namespace ReduxSharp
         }
 
         /// <inheritdoc cref="IStoreConfiguration{T}"/>
-        public IStoreConfiguration<TState> UseLogger<TLogType>() where TLogType : ILogger
+        public IStoreConfiguration<TState> UseLogger<TLogType>() where TLogType : ILog
         {
-            m_loggerTypeRequest = new TypeRequest(typeof(TLogType), typeof(ILogger));
+            m_loggerTypeRequest = new TypeRequest(typeof(TLogType), typeof(ILog));
             return this;
         }
 
         /// <inheritdoc cref="IStoreConfiguration{T}"/>
         public IStoreConfiguration<TState> UseLogger<TLogType, TOptionsType>(ConfigurationDelegate<TOptionsType>? options = null)
-            where TLogType : ILogger
+            where TLogType : ILog
             where TOptionsType : new()
         {
             IParameter parameter = CreateFactoryParameter(options);
-            m_loggerTypeRequest = new TypeRequest(typeof(TLogType), typeof(ILogger), parameter);
+            m_loggerTypeRequest = new TypeRequest(typeof(TLogType), typeof(ILog), parameter);
             return this;
         }
 
@@ -159,24 +159,29 @@ namespace ReduxSharp
 
             List<IReducer<TState>> reducers = new List<IReducer<TState>>();
             List<IMiddleware> middlewares = new List<IMiddleware>();
-            List<IParameter> singletonParameters = new List<IParameter>();
+            List<IParameter> parameters = new List<IParameter>();
 
             // Create activator 
             IActivator activator = DefaultActivator.Get<IActivator>(m_activatorTypeRequest);
 
+            // Logging
+            ILog logger = activator.Get<ILog>(m_loggerTypeRequest);
+
+            parameters.Add(new ConstantParameter("log", logger, typeof(ILog)));
+
             foreach (ITypeRequest singletonRequest in m_singletonTypeRequests)
             {
-                object instance = activator.Get(singletonRequest);
+                object instance = activator.Get(singletonRequest, parameters);
 
                 IParameter parameter = new ConstantParameter("", instance, singletonRequest.Type);
 
-                singletonParameters.Add(parameter);
+                parameters.Add(parameter);
             }
 
 
             foreach (ITypeRequest reducerTypeRequest in m_reducers)
             {
-                IReducer<TState> reducer = activator.Get<IReducer<TState>>(reducerTypeRequest, singletonParameters);
+                IReducer<TState> reducer = activator.Get<IReducer<TState>>(reducerTypeRequest, parameters);
                 reducers.Add(reducer);
             }
 
@@ -196,7 +201,7 @@ namespace ReduxSharp
             foreach (ITypeRequest middlewareTypeRequest in m_middleware)
             {
                 IParameter nextParameter = ConstantParameter.Create<ActionDispatchDelegate>("next", next);
-                IAbstractMiddleware abstractMiddleware = activator.Get<IAbstractMiddleware>(middlewareTypeRequest, singletonParameters.Clone(nextParameter));
+                IAbstractMiddleware abstractMiddleware = activator.Get<IAbstractMiddleware>(middlewareTypeRequest, parameters.Clone(nextParameter));
                 switch (abstractMiddleware)
                 {
                     case IMiddleware middleware:
@@ -210,7 +215,7 @@ namespace ReduxSharp
                 }
             }
 
-            IList<IParameter> storeParameters = singletonParameters.Clone(
+            IList<IParameter> storeParameters = parameters.Clone(
                 ConstantParameter.Create<TState>("state", m_initialState),
                 ConstantParameter.Create<ActionDispatchDelegate>("dispatch", next)
             );

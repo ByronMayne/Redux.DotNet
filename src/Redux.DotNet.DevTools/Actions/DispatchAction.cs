@@ -1,10 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ReduxSharp;
 using ReduxSharp.Converters;
 
-namespace ReduxSharp.Redux.Actions
+namespace Redux.DotNet.DevTools
 {
-    internal class DispatchAction : BaseAction
+    internal class DispatchAction : BaseAction, IAction
     {
         /// <summary>
         /// Gets the state of the event
@@ -19,14 +20,7 @@ namespace ReduxSharp.Redux.Actions
         [JsonProperty("instanceId")]
         public string InstanceId { get; private set; }
 
-        /// <summary>
-        /// Gets the type of dispatch event that this is
-        /// </summary>
-        public ActionTypes DispatchType { get; }
-
-        protected DispatchAction(ActionTypes dispatchType) : base(EventType.Dispatch)
-        {
-            DispatchType = dispatchType;
-        }
+        /// <inheritdoc cref="IAction"/>
+        public string Type => "monitor/dispatchAction";
     }
 }

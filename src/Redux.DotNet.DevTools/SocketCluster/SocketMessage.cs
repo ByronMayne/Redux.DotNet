@@ -1,16 +1,15 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-
-namespace ReduxSharp.Redux
+namespace Redux.DotNet.DevTools.SocketCluster
 {
-    public class ReduxMessage
+    internal class SocketMessage
     {
         public class ActionData
         {
             [JsonProperty("timestamp")]
             public DateTime TimeStamp { get; init; }
-        
+
             [JsonProperty("type")]
             public string Type { get; init; }
 
@@ -39,7 +38,7 @@ namespace ReduxSharp.Redux
         [JsonProperty("action")]
         public ActionData Action { get; init; }
 
-        public ReduxMessage()
+        public SocketMessage()
         {
             Action = new ActionData();
         }

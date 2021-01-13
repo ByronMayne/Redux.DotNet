@@ -5,7 +5,10 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace ReduxSharp.Converters
 {
-    internal class JTokenConverter : JsonConverter<JToken>
+    /// <summary>
+    /// Allows for a string value to be serialized/deserizlied into a JToken instance of the string value.
+    /// </summary>
+    public class JTokenConverter : JsonConverter<JToken>
     {
         public override JToken ReadJson(JsonReader reader, Type objectType, JToken existingValue, bool hasExistingValue, JsonSerializer serializer)
         {

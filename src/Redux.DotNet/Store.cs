@@ -1,5 +1,5 @@
-﻿using ReduxSharp.Middleware;
-using ReduxSharp.Redux.Actions;
+﻿
+using Redux.DotNet.Actions;
 using System;
 
 namespace ReduxSharp
@@ -49,7 +49,7 @@ namespace ReduxSharp
                 Store = this,
                 Result = GetState(),
             };
-     
+
             Action<TState> listeners = m_stateChanged;
 
             BeforeDispatch();

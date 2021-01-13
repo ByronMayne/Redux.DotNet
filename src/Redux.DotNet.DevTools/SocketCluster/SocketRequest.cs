@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using WebSocket4Net;
 
-namespace ReduxSharp.SocketCluster
+namespace Redux.DotNet.DevTools.SocketCluster
 {
-    public class SocketRequest
+    internal class SocketRequest
     {
         [JsonProperty("event")]
         public string EventName { get; init; }

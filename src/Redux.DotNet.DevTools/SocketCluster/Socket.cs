@@ -1,52 +1,21 @@
 ﻿using Newtonsoft.Json.Linq;
-using Serilog;
+using ReduxSharp.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using WebSocket4Net;
 
-namespace ReduxSharp.SocketCluster
+namespace Redux.DotNet.DevTools.SocketCluster
 {
-    internal record Response<T>(int Id, T Value, bool Okay, string Error)
-    {
-        public void Deconstruct(out T result)
-        {
-            result = Value;
-        }
-
-        public void Deconstruct(out T result, out bool okay)
-        {
-            result = Value;
-            okay = Okay;
-        }
-
-        public void Deconstruct(out T result, out bool okay, out string error)
-        {
-            result = Value;
-            okay = Okay;
-            error = Error;
-        }
-
-        public void Deconstruct(out int responseId, out T result, out bool okay, out string error)
-        {
-            result = Value;
-            okay = Okay;
-            error = Error;
-            responseId = Id;
-        }
-    }
-
-
-
     internal class Socket
     {
         public record Authentication(string Id, int PingTimeout, bool IsAuthenticated);
 
 
-        public delegate void SocketObjectMessageDelegate(SocketMessage message);
+        public delegate void SocketObjectMessageDelegate(SocketResponse message);
 
-        private readonly ILogger m_log;
+        private readonly ILog m_log;
         private readonly List<Channel> m_channels;
         private readonly Dictionary<long, TaskCompletionSource<JToken>> m_pendingResponses;
         private long m_nextCallId;
@@ -74,7 +43,7 @@ namespace ReduxSharp.SocketCluster
         /// </summary>
         public string Id { get; private set; }
 
-        public Socket(string url, ILogger logger)
+        public Socket(string url, ILog logger)
         {
             Uri = new Uri(url);
             m_socket = new WebSocket(url);
@@ -251,7 +220,7 @@ namespace ReduxSharp.SocketCluster
                 }
             }
 
-            ObjectRecevied?.Invoke(new SocketMessage(content, this));
+            ObjectRecevied?.Invoke(new SocketResponse(content, this));
         }
 
         private long GetNextCallId() => Interlocked.Increment(ref m_nextCallId);
