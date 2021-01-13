@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30523.141
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{5B1ECF31-1366-4035-8D2A-AE72B2B38E37}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{B480FF05-314C-4743-B519-D40B6D3FA7BC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Redux.DotNet.WPF.Example", "examples\Redux.DotNet.WPF.Example\Redux.DotNet.WPF.Example.csproj", "{79291F29-C710-45B9-A203-A3D1C541088F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReduxSharp", "src\Redux.DotNet\ReduxSharp.csproj", "{8AF342A0-1287-463F-A45B-A69877378FDE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReduxSharp.WPF", "src\Redux.DotNet.WPF\ReduxSharp.WPF.csproj", "{56354BFE-E8ED-42D5-9319-5D83D82B5E27}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{73290FBD-6853-4A61-A8DB-81DD31445BBA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Json", "Json", "{7561CD79-DE02-4BB4-B407-CC8375C302E1}"
+	ProjectSection(SolutionItems) = preProject
+		documents\json\ReduxSubscribeError.json = documents\json\ReduxSubscribeError.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79291F29-C710-45B9-A203-A3D1C541088F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79291F29-C710-45B9-A203-A3D1C541088F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79291F29-C710-45B9-A203-A3D1C541088F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79291F29-C710-45B9-A203-A3D1C541088F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AF342A0-1287-463F-A45B-A69877378FDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AF342A0-1287-463F-A45B-A69877378FDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AF342A0-1287-463F-A45B-A69877378FDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AF342A0-1287-463F-A45B-A69877378FDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56354BFE-E8ED-42D5-9319-5D83D82B5E27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56354BFE-E8ED-42D5-9319-5D83D82B5E27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56354BFE-E8ED-42D5-9319-5D83D82B5E27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56354BFE-E8ED-42D5-9319-5D83D82B5E27}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{79291F29-C710-45B9-A203-A3D1C541088F} = {B480FF05-314C-4743-B519-D40B6D3FA7BC}
+		{8AF342A0-1287-463F-A45B-A69877378FDE} = {5B1ECF31-1366-4035-8D2A-AE72B2B38E37}
+		{56354BFE-E8ED-42D5-9319-5D83D82B5E27} = {5B1ECF31-1366-4035-8D2A-AE72B2B38E37}
+		{7561CD79-DE02-4BB4-B407-CC8375C302E1} = {73290FBD-6853-4A61-A8DB-81DD31445BBA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FCFE5942-013B-4229-8768-51BBEDA03E34}
+	EndGlobalSection
+EndGlobal

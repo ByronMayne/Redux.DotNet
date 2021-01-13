@@ -1,0 +1,7 @@
+{
+    "rid": 3,
+    "error": {
+      "message": "Failed to subscribe socket to the undefined channel - Socket JtEqEufM0SLsG2vhAAAR provided an invalid channel name",
+      "name": "BrokerError"
+    }
+  }
