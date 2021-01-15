@@ -99,10 +99,10 @@ namespace Redux.DotNet.DevTools
         public async Task UpdateStateAsync<T>(T state, string actionName)
             => await m_socket.EmitAsync<T>("log", CreatePayload(state, actionName, "ACTION"));
 
-        private SocketMessage CreatePayload<T>(T state, string actionName, string type)
-            => new SocketMessage()
+        private Report CreatePayload<T>(T state, string actionName, string type)
+            => new Report()
             {
-                Type = "ACTION",
+                Type = ReportType.Action,
                 ClientName = m_clientName,
                 InstanceId = m_clientId,
                 SocketId = m_connectionId,
@@ -157,14 +157,15 @@ namespace Redux.DotNet.DevTools
 
                     switch (dispatchType)
                     {
-                        // Clicking 'jump' beisde a log
                         case ActionTypes.JumpToAction:
-                        // Using the slider events
-                        case ActionTypes.JumpToState:
                             m_dispatchAction.Invoke(data.ToObject<JumpToAction>());
                             break;
+                        case ActionTypes.JumpToState:
+                            m_dispatchAction.Invoke(data.ToObject<JumpToState>());
+                            break;
                         case ActionTypes.ToggleAction:
-                            m_dispatchAction.Invoke(data.ToObject<ToggleAction>());
+                            // TODO: The payload in this is really weird. not supporting for now.
+                            //m_dispatchAction.Invoke(data.ToObject<ToggleAction>());
                             break;
                     }
 

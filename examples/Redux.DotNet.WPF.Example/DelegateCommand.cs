@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace ReduxSharp.Wpf
+namespace Redux.DotNet.Wpf
 {
     public class DelegateCommand : ICommand
     {

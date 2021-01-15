@@ -15,7 +15,7 @@ namespace Redux.DotNet
         {
             builder.UseSingleton<ReduxConnection, DevToolsOptions>(options);
             builder.UseMiddleware<Middleware<T>, DevToolsOptions>(options);
-            builder.UseReducer<Reducer<T>, DevToolsOptions>(options);
+            builder.UseRootReducer<Reducer<T>, DevToolsOptions>(options);
             return builder;
         }
     }

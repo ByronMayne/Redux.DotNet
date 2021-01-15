@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace ReduxSharp.Activation.IOC
 {
+    [DebuggerDisplay("{Type}: {Name}")]
     public class ConstantParameter : IParameter
     {
         public string Name { get; init; }

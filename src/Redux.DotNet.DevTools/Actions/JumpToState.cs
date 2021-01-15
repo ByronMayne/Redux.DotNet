@@ -3,9 +3,9 @@
 namespace Redux.DotNet.DevTools
 {
     /// <summary>
-    /// Event raised by the monitor when using the inspector and clicking the `jump` button
+    /// Event raised by the monitor when using the slider
     /// </summary>
-    internal class JumpToAction : DispatchAction, IAction
+    internal class JumpToState : DispatchAction, IAction
     {
         public const string ACTION_KEY = "monitor/jump_to_action";
 

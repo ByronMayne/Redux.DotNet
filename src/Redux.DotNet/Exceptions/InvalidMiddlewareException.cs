@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ReduxSharp.Exceptions
+namespace Redux.DotNet.Exceptions
 {
     public class InvalidMiddlewareException : ReduxSharpException
     {

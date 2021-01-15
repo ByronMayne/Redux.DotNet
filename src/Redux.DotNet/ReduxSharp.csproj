@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <LangVersion>preview</LangVersion>
+    <AssemblyName>Redux.DotNet</AssemblyName>
+    <RootNamespace>Redux.DotNet</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

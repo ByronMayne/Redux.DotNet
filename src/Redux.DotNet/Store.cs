@@ -1,8 +1,9 @@
 ﻿
 using Redux.DotNet.Actions;
+using ReduxSharp;
 using System;
 
-namespace ReduxSharp
+namespace Redux.DotNet
 {
     public class Store<TState> : IStore<TState>
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ReduxSharp.Exceptions
+namespace Redux.DotNet.Exceptions
 {
     /// <summary>
     /// Exception thorwn when trying to configure the store using <see cref="StoreConfiguration{TState}"/> and

@@ -1,10 +1,10 @@
-﻿using Redux.DotNet.Wpf.Store.Middleware;
+﻿using Redux.DotNet.Wpf.Store;
+using Redux.DotNet.Wpf.Store.Middleware;
+using Redux.DotNet.WPF.Example;
+using Redux.DotNet.WPF.Store;
 using ReduxSharp;
 using ReduxSharp.Logging;
-using ReduxSharp.Wpf;
-using ReduxSharp.Wpf.Store;
 using ReduxSharp.WPF;
-using ReduxSharp.WPF.Example;
 using System;
 using System.Threading;
 
@@ -19,16 +19,17 @@ namespace Redux.DotNet.Wpf
 
             try
             {
-                ApplicationState initialState = new ApplicationState("Hello", 32);
+                AppState initialState = new AppState();
 
-                IStore<ApplicationState> store = new StoreConfiguration<ApplicationState>()
+                IStore<AppState> store = new StoreConfiguration<AppState>()
                               .UseReduxDevTools(options => options.ClientName = "RestSharp.WPF")
                               .UseMiddleware<LoggerMiddleware>()
-                              .UseReducer<AppStateReducer>()
+                              .UseReducer<AboutReducer, About>(state => state.About)
+                              .UseReducer<UserReducer, UserInfo>(state => state.User)
                               .UseInitialState(initialState)
                               .UseDefaultActivator()
                               .UseDefaultLogger(options => options.MinimumLogLevel = LogLevel.Verbose)
-                              .CreateStore<WPFStore<ApplicationState>>();
+                              .CreateStore<WPFStore<AppState>>();
 
                 App app = new App(store);
                 app.Run();

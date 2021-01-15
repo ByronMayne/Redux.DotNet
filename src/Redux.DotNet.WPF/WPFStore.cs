@@ -1,4 +1,5 @@
-﻿using ReduxSharp;
+﻿using Redux.DotNet;
+using ReduxSharp;
 using System.ComponentModel;
 
 namespace ReduxSharp.WPF

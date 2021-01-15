@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ReduxSharp.Exceptions
+namespace Redux.DotNet.Exceptions
 {
     public class ConstructionException : ReduxSharpException
     {

@@ -8,11 +8,11 @@ namespace ReduxSharp.Reducers
 
     public interface IAsyncReducer<TState> : IAbstractReducer<TState>
     {
-        Task<TState> ReduceAsync(TState currentState, IAction actionContext);
+        Task<TState> ReduceAsync(TState currentState, IAction action);
     }
 
     public interface IReducer<TState> : IAbstractReducer<TState>
     {
-        TState Reduce(TState currentState, IAction actionContext);
+        TState Reduce(TState currentState, IAction action);
     }
 }

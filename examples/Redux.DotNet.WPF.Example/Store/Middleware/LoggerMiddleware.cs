@@ -1,6 +1,5 @@
 ﻿using ReduxSharp;
 using ReduxSharp.Middleware;
-using ReduxSharp.Wpf;
 using System.Threading.Tasks;
 
 namespace Redux.DotNet.Wpf.Store.Middleware
@@ -14,7 +13,7 @@ namespace Redux.DotNet.Wpf.Store.Middleware
             m_next = next;
         }
 
-        public void Initialize(IStore<ApplicationState> state)
+        public void Initialize(IStore<AppState> state)
         {
         }
 

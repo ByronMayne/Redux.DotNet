@@ -1,24 +1,20 @@
 ﻿#nullable enable
 
+using Redux.DotNet;
+using Redux.DotNet.Exceptions;
 using ReduxSharp.Activation;
 using ReduxSharp.Activation.IOC;
-using ReduxSharp.Exceptions;
 using ReduxSharp.Logging;
 using ReduxSharp.Middleware;
 using ReduxSharp.Reducers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace ReduxSharp
 {
-    /// <summary>
-    /// A delegates used to configure different options
-    /// </summary>
-    public delegate void ConfigurationDelegate<T>(T options);
 
-    public delegate Task ActionDispatchDelegate(IActionContext actionContext);
 
     /// <summary>
     /// Configuration object for creating <see cref="IStore{TState}"/> instances.
@@ -76,20 +72,54 @@ namespace ReduxSharp
         }
 
         /// <inheritdoc cref="IStoreConfiguration{T}"/>
-        public IStoreConfiguration<TState> UseReducer<TType>()
-            where TType : IAbstractReducer<TState>
+        public IStoreConfiguration<TState> UseRootReducer<TReducerType>()
+            where TReducerType : IAbstractReducer<TState>
         {
-            m_reducers.Add(new TypeRequest(typeof(TType)));
+            m_reducers.Add(new TypeRequest(typeof(TReducerType)));
             return this;
         }
 
         /// <inheritdoc cref="IStoreConfiguration{T}"/>
-        public IStoreConfiguration<TState> UseReducer<TType, TOptionsType>(ConfigurationDelegate<TOptionsType>? options = null)
+        public IStoreConfiguration<TState> UseRootReducer<TReducerType, TOptionsType>(ConfigurationDelegate<TOptionsType>? options = null)
             where TOptionsType : new()
-            where TType : IAbstractReducer<TState>
+            where TReducerType : IAbstractReducer<TState>
         {
             IParameter parameter = CreateFactoryParameter(options);
-            m_reducers.Add(new TypeRequest(typeof(TType), parameter));
+            m_reducers.Add(new TypeRequest(typeof(TReducerType), parameter));
+            return this;
+        }
+
+        /// <inheritdoc cref="IStoreConfiguration{T}"/>
+        public IStoreConfiguration<TState> UseReducer<TReducerType, TSectionType>(Expression<StateSubSectionSelectionDelegate<TState, TSectionType>> sectionSelector)
+            where TReducerType : IReducer<TSectionType>
+        {
+            Type reducerType = typeof(ReducerSection<TState, TReducerType, TSectionType>);
+
+            IParameter[] parameters = new IParameter[]
+            {
+                ConstantParameter.Create<ITypeRequest>("subReducer", new TypeRequest(typeof(TReducerType))),
+                ConstantParameter.Create<Expression<StateSubSectionSelectionDelegate<TReducerType, TSectionType>>>(nameof(sectionSelector), sectionSelector)
+            };
+
+            TypeRequest typeRequest = new TypeRequest(reducerType, parameters);
+            m_reducers.Add(typeRequest);
+            return this;
+        }
+
+        /// <inheritdoc cref="IStoreConfiguration{T}"/>
+        public IStoreConfiguration<TState> UseReducer<TReducerType, TSectionType, TOptions>(Expression<StateSubSectionSelectionDelegate<TState, TSectionType>> sectionSelector, ConfigurationDelegate<TOptions> options)
+            where TOptions : new()
+            where TReducerType : IReducer<TSectionType>
+        {
+            Type reducerType = typeof(ReducerSection<TState, TReducerType, TSectionType>);
+            IParameter[] parameters = new IParameter[]
+            {
+                CreateFactoryParameter(options),
+                 ConstantParameter.Create<ITypeRequest>("subReducer", new TypeRequest(typeof(TReducerType))),
+                new ConstantParameter(nameof(sectionSelector), sectionSelector, typeof(Expression<StateSubSectionSelectionDelegate<TReducerType, TSectionType>>))
+            };
+            TypeRequest typeRequest = new TypeRequest(reducerType, parameters);
+            m_reducers.Add(typeRequest);
             return this;
         }
 
@@ -164,6 +194,8 @@ namespace ReduxSharp
             // Create activator 
             IActivator activator = DefaultActivator.Get<IActivator>(m_activatorTypeRequest);
 
+            parameters.Add(ConstantParameter.Create<IActivator>(nameof(activator), activator));
+
             // Logging
             ILog logger = activator.Get<ILog>(m_loggerTypeRequest);
 
@@ -178,21 +210,11 @@ namespace ReduxSharp
                 parameters.Add(parameter);
             }
 
-
             foreach (ITypeRequest reducerTypeRequest in m_reducers)
             {
                 IReducer<TState> reducer = activator.Get<IReducer<TState>>(reducerTypeRequest, parameters);
                 reducers.Add(reducer);
             }
-
-            // IAction 
-            //  -> Middleware_1
-            //      -> Middlware_2
-            //          -> Reducer_1
-            //          -> Reducer_2
-            //      -> Middlware_2 
-            //  -> Middleware_1
-            // Update State 
 
             ReducerMiddleware<TState> rootDispatcher = new ReducerMiddleware<TState>(reducers);
 
@@ -237,6 +259,7 @@ namespace ReduxSharp
                 return instance;
             });
         }
+
 
     }
 }

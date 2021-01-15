@@ -1,5 +1,5 @@
-﻿using ReduxSharp.Activation.IOC;
-using ReduxSharp.Exceptions;
+﻿using Redux.DotNet.Exceptions;
+using ReduxSharp.Activation.IOC;
 using System;
 using System.Collections.Generic;
 using System.Linq;

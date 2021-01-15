@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace ReduxSharp.Exceptions
+namespace Redux.DotNet.Exceptions
 {
     public class ReduxSharpException : Exception
     {

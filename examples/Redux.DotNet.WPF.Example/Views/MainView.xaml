@@ -1,26 +1,42 @@
-﻿<Window x:Class="ReduxSharp.WPF.Example.Views.MainView"
+﻿<Window x:Class="Redux.DotNet.WPF.Example.Views.MainView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:a="clr-namespace:Redux.DotNet.WPF.Example.Store.Actions"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         x:Name="Window"
-        Title="MainView" Height="450" Width="800">
-    <StackPanel>
-
-        <TextBlock Text="HE"/>
+        Title="MainView" Height="200" Width="320">
+    <DockPanel LastChildFill="True">
         <StoreProvider Store="{Binding Store, ElementName=Window}">
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Value: " FontSize="40"/>
-                    <TextBlock Text="{StoreBinding IntValue}"  FontSize="40"/>
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal"  Height="40">
-                    <Button Content="Increment" Width="100" Margin="2" Command="{Binding IncrementCommand}"/>
-                    <Button Content="Decrement" Width="100" Margin="2" Command="{Binding DecrementCommand}"/>
-                </StackPanel>
-            </StackPanel>
+            <TabControl VerticalAlignment="Stretch">
+                <TabItem Header="User Info">
+                    <DockPanel Margin="4" LastChildFill="False" >
+                        <!-- First Name -->
+                        <TextBlock DockPanel.Dock="Top" Text="First Name:  "/>
+                        <TextBox  DockPanel.Dock="Top" Text="{StoreBinding FirstName, Section=User}"/>
+                        <!-- Last Name -->
+                        <TextBlock DockPanel.Dock="Top" Text="Last Name:  "/>
+                        <TextBox  DockPanel.Dock="Top" Text="{StoreBinding LastName, Section=User}"/>
+                        <!-- Age -->
+                        <TextBlock DockPanel.Dock="Top" Text="Age:  "/>
+                        <TextBox  DockPanel.Dock="Top"  Text="{StoreBinding Age, Section=User}"/>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="About">
+                    <DockPanel Margin="4" LastChildFill="False" >
+                        <!-- First Name -->
+                        <TextBlock DockPanel.Dock="Top" Text="favorite Color:  "/>
+                        <TextBox  DockPanel.Dock="Top" Text="{StoreBinding About.FavoriteColor, a:ChangeFavoriteColorAction}"/>
+                        <!-- Last Name -->
+                        <TextBlock DockPanel.Dock="Top" Text="Number of pets:  "/>
+                        <TextBox  DockPanel.Dock="Top" Text="{StoreBinding About.PetCount,  a:ChangePetCountAction}"/>
+                        <!-- Age -->
+                        <TextBlock DockPanel.Dock="Top" Text="Number of siblings:  "/>
+                        <TextBox  DockPanel.Dock="Top" Text="{StoreBinding About.SiblingCount, a:ChangeSiblingCountAction}"/>
+                    </DockPanel>
+                </TabItem>
+            </TabControl>
         </StoreProvider>
-    </StackPanel>
+    </DockPanel>
 </Window>
