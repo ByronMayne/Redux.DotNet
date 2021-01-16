@@ -1,6 +1,4 @@
-﻿using Redux.DotNet.Wpf.Store.Actions;
-
-namespace Redux.DotNet.Wpf.ViewModel
+﻿namespace ProfileEditor
 {
 
     public class MainViewModel

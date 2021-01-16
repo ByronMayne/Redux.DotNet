@@ -1,4 +1,4 @@
-﻿namespace Redux.DotNet.Wpf
+﻿namespace ProfileEditor
 {
     public record UserInfo(string FirstName, string LastName, int Age);
     public record About(string FavoriteColor, int PetCount, int SiblingCount);
@@ -14,7 +14,7 @@
 
         public AppState()
         {
-            User = new UserInfo("", "", 0);
+            User = new UserInfo("Byron", "Mayne", 30);
             About = new About("", 0, 0);
             View = new ViewState(0);
         }

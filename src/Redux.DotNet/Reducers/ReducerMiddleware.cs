@@ -4,6 +4,11 @@ using System.Threading.Tasks;
 
 namespace ReduxSharp.Reducers
 {
+    /// <summary>
+    /// This is the last peice of middlware that is invoked just
+    /// before invokging the reducers 
+    /// </summary>
+    /// <typeparam name="TState"></typeparam>
     internal class ReducerMiddleware<TState> : IMiddleware
     {
         private IReadOnlyList<IReducer<TState>> m_reducers;

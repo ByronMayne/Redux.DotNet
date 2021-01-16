@@ -53,32 +53,25 @@ namespace Redux.DotNet
 
             Action<TState> listeners = m_stateChanged;
 
-            BeforeDispatch();
+            Dispatch(context);
 
-            m_asyncDispatch(context).Wait();
-
-            AfterDispatch();
-
-            State = context.Result;
+            UpdateStore(context.Result);
 
             listeners?.Invoke(State);
         }
 
         /// <summary>
-        /// Raised before dispatching
+        /// Invoked when going to dispatch an action.
         /// </summary>
-        protected virtual void BeforeDispatch()
-        {
-
-        }
+        /// <param name="context">The action context that is going to be invoked</param>
+        protected virtual void Dispatch(ActionContext<TState> context)
+            => m_asyncDispatch(context).Wait();
 
         /// <summary>
-        /// Raised after dispatching 
+        /// Invoked when the store should have it's value changed.
         /// </summary>
-        protected virtual void AfterDispatch()
-        {
-
-        }
+        protected virtual void UpdateStore(TState newState)
+            => State = newState;
 
         object IStore.GetState()
             => GetState();

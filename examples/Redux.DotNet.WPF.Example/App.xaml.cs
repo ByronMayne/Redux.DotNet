@@ -1,9 +1,7 @@
-﻿using Redux.DotNet.Wpf;
-using Redux.DotNet.WPF.Example.Views;
-using ReduxSharp;
+﻿using ReduxSharp;
 using System.Windows;
 
-namespace Redux.DotNet.WPF.Example
+namespace ProfileEditor
 {
     /// <summary>
     /// Interaction logic for App.xaml

@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{5B1ECF31-1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{B480FF05-314C-4743-B519-D40B6D3FA7BC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Redux.DotNet.WPF.Example", "examples\Redux.DotNet.WPF.Example\Redux.DotNet.WPF.Example.csproj", "{79291F29-C710-45B9-A203-A3D1C541088F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProfileEditor", "examples\Redux.DotNet.WPF.Example\ProfileEditor.csproj", "{79291F29-C710-45B9-A203-A3D1C541088F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReduxSharp", "src\Redux.DotNet\ReduxSharp.csproj", "{8AF342A0-1287-463F-A45B-A69877378FDE}"
 EndProject
@@ -22,7 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Json", "Json", "{7561CD79-D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{C9447B2E-8201-48DF-93FA-BD503F711021}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Redux.DotNet.DevTools", "src\Redux.DotNet.DevTools\Redux.DotNet.DevTools.csproj", "{B72C46DF-A276-4DB7-A9BA-1E8275CB682D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Redux.DotNet.DevTools", "src\Redux.DotNet.DevTools\Redux.DotNet.DevTools.csproj", "{B72C46DF-A276-4DB7-A9BA-1E8275CB682D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

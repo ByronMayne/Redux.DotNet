@@ -1,14 +1,11 @@
-﻿using Redux.DotNet.Wpf.Store;
-using Redux.DotNet.Wpf.Store.Middleware;
-using Redux.DotNet.WPF.Example;
-using Redux.DotNet.WPF.Store;
+﻿using Redux.DotNet;
 using ReduxSharp;
 using ReduxSharp.Logging;
 using ReduxSharp.WPF;
 using System;
 using System.Threading;
 
-namespace Redux.DotNet.Wpf
+namespace ProfileEditor
 {
     public static class Program
     {
@@ -26,6 +23,7 @@ namespace Redux.DotNet.Wpf
                               .UseMiddleware<LoggerMiddleware>()
                               .UseReducer<AboutReducer, About>(state => state.About)
                               .UseReducer<UserReducer, UserInfo>(state => state.User)
+                              .UseReducer<ViewReducer, ViewState>(state => state.View)
                               .UseInitialState(initialState)
                               .UseDefaultActivator()
                               .UseDefaultLogger(options => options.MinimumLogLevel = LogLevel.Verbose)

@@ -2,7 +2,7 @@
 using ReduxSharp.Middleware;
 using System.Threading.Tasks;
 
-namespace Redux.DotNet.Wpf.Store.Middleware
+namespace ProfileEditor
 {
     internal class LoggerMiddleware : IMiddleware
     {

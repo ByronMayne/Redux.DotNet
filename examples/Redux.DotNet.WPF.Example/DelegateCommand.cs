@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Redux.DotNet.Wpf
+namespace ProfileEditor
 {
     public class DelegateCommand : ICommand
     {

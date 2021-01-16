@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ReduxSharp.Reflection;
+using ReduxSharp.WPF.Utility;
+using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -8,17 +10,37 @@ using System.Windows.Markup;
 
 namespace ReduxSharp.WPF.Markup
 {
+
     /// <summary>
     /// Used to bind controls directly to the most recent store provider
     /// </summary>
     public class StoreBinding : MarkupExtension
     {
-        internal record Dependency(DependencyObject Object, DependencyProperty Property);
+        private class Property
+        {
+            public PropertyDescriptor Descriptor { get; init; }
+            public DependencyProperty DependencyProperty { get; init; }
+            public DependencyObject DependencyObject { get; init; }
+            public IStore Store { get; init; }
 
+            /// <summary>
+            /// Gets the property value
+            /// </summary>
+            /// <returns></returns>
+            public object GetValue()
+                => Descriptor.GetValue(DependencyObject);
 
+            /// <summary>
+            /// Adds a new event handler
+            /// </summary>
+            /// <param name="eventHandler"></param>
+            public void AddEventHandler(EventHandler eventHandler)
+                => Descriptor?.AddValueChanged(DependencyObject, eventHandler);
+        }
+
+        private bool m_ignoreNextValueChangeEvent;
         private readonly string m_path;
-        private Dependency m_dependency;
-        private PropertyDescriptor m_propertyDescriptor;
+        private Property m_property;
 
         /// <summary>
         /// Gets or sets a value that indicates the direction of the data flow in the binding.
@@ -32,105 +54,120 @@ namespace ReduxSharp.WPF.Markup
         [DefaultValue(UpdateSourceTrigger.Default)]
         public UpdateSourceTrigger UpdateSourceTrigger { get; set; }
 
+        /// <summary>
+        /// Gets or sets the action that will be preformed when this value
+        /// updates. 
+        /// </summary>
         [DefaultValue(null)]
-        public Type UpdateAction { get; set; }
+        public Type Action { get; set; }
 
         /// <summary>
         /// Gets the section this binding should use
         /// </summary>
         public string Section { get; set; }
 
-        public StoreBinding(string path): base()
+        public StoreBinding(string path) : base()
         {
-            UpdateAction = null;
+            Action = null;
             m_path = path;
+            m_ignoreNextValueChangeEvent = false;
         }
 
-        public StoreBinding(string path, Type actionType) : base()
+        /// <summary>
+        /// Invoked when this instance is first created use it to setup the object
+        /// </summary>
+        /// <param name="serviceProvider">The provider for parameters</param>
+        private void Initialize(IServiceProvider serviceProvider)
         {
-            UpdateAction = actionType;
-            m_path = path;
-        }
+            m_ignoreNextValueChangeEvent = true;
 
-        private PropertyDescriptor GetPropertyDescriptor(Dependency dependency)
-        {
-            PropertyDescriptor propertyDescriptor = null;
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(m_dependency.Object.GetType());
+            IProvideValueTarget valueTarget = (IProvideValueTarget)serviceProvider.GetService(typeof(IProvideValueTarget));
+            // DependencyObject: the instance that holds the value 
+            FrameworkElement dependencyObject = (FrameworkElement)valueTarget.TargetObject;
+            // DependencyProperty: The property or virtual property of the instance
+            DependencyProperty dependencyProperty = (DependencyProperty)valueTarget.TargetProperty;
+            // PropertyDescriptor: Like PropertyInfo however it can also point at 'virtual' properties 
+            PropertyDescriptor propertyDescriptor = ComponentModelUtility.GetPropertyDescriptor(dependencyObject, dependencyProperty);
+            // We we store the data for redux
+            IStore store = dependencyObject.GetStore();
 
-            for (int i = 0; i < properties.Count; i++)
+            if (store is INotifyPropertyChanged propertyChanged)
             {
-                if (propertyDescriptor == null && string.Equals(properties[i].Name, m_dependency.Property.Name, StringComparison.OrdinalIgnoreCase))
-                {
-                    propertyDescriptor = properties[i];
-                    break;
-                }
+                propertyChanged.PropertyChanged += OnStorePropertyChanged;
             }
 
-            return propertyDescriptor;
+            m_property = new Property()
+            {
+                DependencyObject = dependencyObject,
+                DependencyProperty = dependencyProperty,
+                Store = store,
+                Descriptor = propertyDescriptor,
+            };
         }
 
 
 
+        /// <inheritdoc cref="MarkupExtension"/>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            IProvideValueTarget valueTarget = (IProvideValueTarget)serviceProvider.GetService(typeof(IProvideValueTarget));
-
-            if (valueTarget.TargetObject is FrameworkElement frameworkElement)
+            if (m_property == null)
             {
-                m_dependency = new Dependency((DependencyObject)valueTarget.TargetObject, (DependencyProperty)valueTarget.TargetProperty);
-
-
-                IStore store = frameworkElement.GetStore();
-
-                if(store is INotifyPropertyChanged notifyPropertyChanged)
-                {
-                    notifyPropertyChanged.PropertyChanged += OnStorePropertyChanged;
-                }
-
-                m_propertyDescriptor = GetPropertyDescriptor(m_dependency);
-
-
-                m_propertyDescriptor.AddValueChanged(m_dependency.Object, new EventHandler(TargetPropertyChanged));
-
-
-                Binding binding = new Binding($"{WPFConstants.STORE_STATE_NAME}.{m_path}")
-                {
-                    Source = store,
-                    NotifyOnSourceUpdated = true,
-                    UpdateSourceTrigger = UpdateSourceTrigger,
-                    NotifyOnTargetUpdated = true,
-                    Mode = Mode,
-                };
-                
-                return binding.ProvideValue(serviceProvider);
+                Initialize(serviceProvider); ;
             }
 
-            return null;
+
+            if (Action != null)
+            {
+                m_property.AddEventHandler(new EventHandler(OnPropertyChanged));
+            }
+
+            return GetStoreValue();
         }
 
+        /// <summary>
+        /// Raised whenever the store has a value that changes.
+        /// </summary>
+        /// <param name="sender">The store itself</param>
+        /// <param name="e">The property path in the store that changed</param>
         private void OnStorePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-
+            if (e.PropertyName == m_path)
+            {
+                object value = GetStoreValue();
+                m_ignoreNextValueChangeEvent = true;
+                m_property.DependencyObject.SetValue(m_property.DependencyProperty, value);
+            }
         }
 
-        private void TargetPropertyChanged(object sender, EventArgs e)
+
+        /// <summary>
+        /// Using the current store this fetches the value.
+        /// </summary>
+        private object GetStoreValue()
         {
-            if (UpdateAction == null)
+            object state = m_property.Store.GetState();
+
+            object value = ReflectionUtility.GetValueFromPath(state, m_path);
+
+            return Convert.ChangeType(value, m_property.DependencyProperty.PropertyType);
+        }
+
+        private void OnPropertyChanged(object sender, EventArgs e)
+        {
+            if(m_ignoreNextValueChangeEvent)
             {
+                m_ignoreNextValueChangeEvent = false;
                 return;
             }
 
             // Raised whenever the store changes values
-            ConstructorInfo constructor = UpdateAction.GetConstructors().First();
+            ConstructorInfo constructor = Action.GetConstructors().First();
 
-            object propertyValue = m_propertyDescriptor.GetValue(m_dependency.Object);
+            object propertyValue = m_property.GetValue();
 
             ParameterInfo parameterInfo = constructor.GetParameters()[0];
 
-            if (parameterInfo.ParameterType == typeof(int))
-            {
-                propertyValue = int.Parse((string)propertyValue);
-            }
+            propertyValue = Convert.ChangeType(propertyValue, parameterInfo.ParameterType);
 
             IAction action = (IAction)constructor.Invoke(new object[] { propertyValue });
             ReduxDispatch.Dispatch(action);

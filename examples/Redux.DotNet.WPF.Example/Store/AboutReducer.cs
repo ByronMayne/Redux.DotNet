@@ -1,8 +1,7 @@
-﻿using Redux.DotNet.WPF.Example.Store.Actions;
-using ReduxSharp;
+﻿using ReduxSharp;
 using ReduxSharp.Reducers;
 
-namespace Redux.DotNet.Wpf.Store
+namespace ProfileEditor
 {
     internal class AboutReducer : IReducer<About>
     {

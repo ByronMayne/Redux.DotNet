@@ -5,7 +5,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>preview</LangVersion>
     <UseWPF>true</UseWPF>
-    <StartupObject>Redux.DotNet.Wpf.Program</StartupObject>
+    <StartupObject>ProfileEditor.Program</StartupObject>
+    <AssemblyName>ProfileEditor</AssemblyName>
+    <RootNamespace>ProfileEditorProfileEditor</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -18,6 +18,8 @@ namespace Redux.DotNet.DevTools
             {
                 case JumpToAction jumpToAction:
                     return jumpToAction.State.ToObject<TState>();
+                case JumpToState jumpToState:
+                    return jumpToState.State.ToObject<TState>();
                 case ToggleAction toggleAction:
 
                     break;

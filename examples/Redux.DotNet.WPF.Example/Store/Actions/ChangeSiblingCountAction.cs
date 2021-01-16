@@ -1,6 +1,6 @@
 ﻿using ReduxSharp;
 
-namespace Redux.DotNet.WPF.Example.Store.Actions
+namespace ProfileEditor
 {
     internal record ChangeSiblingCountAction(int Count) : IAction
     {

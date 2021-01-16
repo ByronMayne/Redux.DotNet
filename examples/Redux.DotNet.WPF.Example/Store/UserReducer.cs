@@ -1,9 +1,7 @@
-﻿using Redux.DotNet.Wpf;
-using Redux.DotNet.Wpf.Store.Actions;
-using ReduxSharp;
+﻿using ReduxSharp;
 using ReduxSharp.Reducers;
 
-namespace Redux.DotNet.WPF.Store
+namespace ProfileEditor
 {
     internal class UserReducer : IReducer<UserInfo>
     {
@@ -13,12 +11,10 @@ namespace Redux.DotNet.WPF.Store
             {
                 case ChangeAgeAction changeAge:
                     return currentState with { Age = changeAge.NewAge };
-                case ChangeNameAction chagneName:
-                    return currentState with
-                    {
-                        FirstName = chagneName.FirstName,
-                        LastName = chagneName.LastName
-                    };
+                case ChangeLastNameAction lastName:
+                    return currentState with { LastName = lastName.Value };
+                case ChangeFirstNameAction firstName:
+                    return currentState with { FirstName = firstName.Value };
             }
 
             return currentState;

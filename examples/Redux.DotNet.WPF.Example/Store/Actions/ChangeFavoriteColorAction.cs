@@ -1,10 +1,6 @@
-﻿using Redux.DotNet;
-using ReduxSharp;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ReduxSharp;
 
-namespace Redux.DotNet.WPF.Example.Store.Actions
+namespace ProfileEditor
 {
     internal record ChangeFavoriteColorAction(string Color) : IAction
     {

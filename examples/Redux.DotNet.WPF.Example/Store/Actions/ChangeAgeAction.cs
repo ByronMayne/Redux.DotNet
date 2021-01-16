@@ -1,6 +1,6 @@
 ﻿using ReduxSharp;
 
-namespace Redux.DotNet.Wpf.Store.Actions
+namespace ProfileEditor
 {
     internal record ChangeAgeAction(int NewAge) : IAction
     {
