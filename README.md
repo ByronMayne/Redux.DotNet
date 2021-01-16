@@ -17,6 +17,11 @@ Before getting started it is suggested you read up on how Redux works because it
  * Actions
  * Dispatchers
 
+# Demo Project
+There is currently a demo project in this repo to get it to work you need to run a remote dev instace. To get this running do the following.
+
+* `npm install -g remotedev` to install the package globally
+* `remotedev` to start an instance 
 
 # Getting Started
 
@@ -99,7 +104,40 @@ IStore<AppState> store = new StoreConfiguration<ApplicationState>()
                       .CreateStore();
 ```
 
+### XAML Integration
+Much like the Javescript version of Redux the WPF version needs to define a provider at the root of the window. A provider is used to provide the store instance to child elements. In the example below the Window has a property called `Store` which has our store instance.  
 
-TODO: Dispatching events docs
+```xml
+<Window x:Class="ProfileEditor.MainView">
+    <DockPanel LastChildFill="True">
+        <StoreProvider Store="{Binding Store}">
+            <!-- The content of your window -->
+        </StoreProvider>
+    </DockPanel>
+</Window>
+```
+A store is not very useful if it does not have users. Here we are going to add a label to display the value of the counter. 
+```xml
+<StoreProvider Store="{Binding Store}">
+    <StackPanel Orientation="Horizontal">
+        <Label Text="Counter Value: "/>
+        <Label Text="{StoreBinding Counter}">
+    <StackPanel>
+</StoreProvider>
+```
+And that is it, the counter now shows the value of the counter and will update when the store changes. Behind the scnes the `StoreBinding` walks the hierarchy until it finds a `StoreProvider` and then links to it and subscribes to events. 
 
-TODO: Dev tools integration docs 
+Now that we are displaying the value lets have a way to increment it
+```xml
+<StoreProvider Store="{Binding Store}">
+    <StackPanel Orientation="Horizontal">
+        <Label Text="Counter Value: "/>
+        <Label Text="{StoreBinding Counter}">
+    <StackPanel>
+    <StackPanel Orientation="Horizontal">
+        <Button Text="+" Command="{ActionBinding IncrementCommand"/>
+        <Button Text="-" Command="{ActionBinding IncrementCommand}" />
+    <StackPanel>
+</StoreProvider>
+```
+And now when we press the `+` or `-` buttons our counter will increment or decrement. 
